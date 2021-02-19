@@ -8,6 +8,7 @@ class Range:
         self.maximum = maximum
         self.description = description
         self.count = 0
+        self.percentage = 0.0
 
 
 class RSCP:
@@ -18,7 +19,18 @@ class RSCP:
         self.ranges = ranges
 
     def addSample(self, value):
-        for r in self.ranges:
-            if r.maximum > value >= r.minimum:
-                r.count += 1
+        for r in self.ranges.keys():
+            myrange = self.ranges.get(r)
+            if myrange.maximum > value >= myrange.minimum:
+                myrange.count += 1
                 break
+
+    def calculatePercentages(self):
+        total = 0
+        for r in self.ranges.keys():
+            myrange = self.ranges.get(r)
+            total += myrange.count
+
+        for r in self.ranges.keys():
+            myrange = self.ranges.get(r)
+            myrange.percentage = myrange.count / total

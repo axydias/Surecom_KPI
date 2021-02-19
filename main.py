@@ -1,6 +1,5 @@
 import sys
-import os
-import Parser
+from Parser import Parser
 
 if __name__ == '__main__':
 
@@ -10,4 +9,4 @@ if __name__ == '__main__':
         print("Usage:" + sys.argv[0] + "input_directory")
         exit(1)
 
-    parser = Parser("file.FMT")
+    parser = Parser('file.FMT')
