@@ -2,6 +2,7 @@ from collections import OrderedDict
 from Stats3G import RSCP, Range
 
 
+
 class Parser:
     def __init__(self, filename):
         self.filename = filename
@@ -11,6 +12,8 @@ class Parser:
         ranges['-15to-94'] = Range(-94, -15, '-15 to -94')
         rscp = RSCP("rscp", ranges)
 
-        rscp.addSample(-121)
-        rscp.addSample(-101)
-        rscp.addSample(-40)
+        with open(filename) as infile:
+            for line in infile:
+                rscp.addSample(-121)
+                rscp.addSample(-101)
+                rscp.addSample(-40)
