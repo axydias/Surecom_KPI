@@ -1,5 +1,6 @@
 from collections import OrderedDict
 import ParserException
+from settings import SEPERATOR
 
 
 class Range:
@@ -11,7 +12,7 @@ class Range:
         self.percentage = 0.0
 
 
-class RSCP:
+class KPI:
     def __init__(self, name, ranges):
         self.name = name
         if not isinstance(ranges, OrderedDict):
@@ -21,7 +22,7 @@ class RSCP:
     def addSample(self, value):
         for r in self.ranges.keys():
             myrange = self.ranges.get(r)
-            if myrange.maximum > value >= myrange.minimum:
+            if myrange.maximum > float(value) >= myrange.minimum:
                 myrange.count += 1
                 break
 
@@ -34,3 +35,12 @@ class RSCP:
         for r in self.ranges.keys():
             myrange = self.ranges.get(r)
             myrange.percentage = myrange.count / total
+
+    def printRanges(self):
+        percentages = ''
+        for r in self.ranges.keys():
+            myrange = self.ranges.get(r)
+            mystr = '{}{}{}{}{}\n'.format(myrange.description, SEPERATOR, myrange.count, SEPERATOR, myrange.percentage)
+            percentages += mystr
+
+        return percentages

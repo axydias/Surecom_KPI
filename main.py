@@ -9,4 +9,7 @@ if __name__ == '__main__':
         print("Usage:" + sys.argv[0] + "input_directory")
         exit(1)
 
-    parser = Parser('file.FMT')
+    print("Program started")
+    parser = Parser('input/VF BMT Car pk UMTS.FMT')
+    parser.writeOutput()
+    print ("Program ended with success")

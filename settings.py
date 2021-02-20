@@ -1,0 +1,2 @@
+SEPERATOR = ';'
+OUTPUTDIR = 'output'
