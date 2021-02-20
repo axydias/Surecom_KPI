@@ -4,15 +4,15 @@ from os.path import join
 from Parser import Parser
 
 
-def getInputFileList(inputDir):
-    entries = listdir(inputDir)
+def getInputFileList(inputDirPath):
+    entries = listdir(inputDirPath)
     fmtFiles = []
-    pureFilenames = []
+    pureFilenamesList = []
     for e in entries:
         if e.lower().endswith(".fmt"):
-            fmtFiles.append(join(inputDir,e))
-            pureFilenames.append(e)
-    return fmtFiles, pureFilenames
+            fmtFiles.append(join(inputDirPath, e))
+            pureFilenamesList.append(e)
+    return fmtFiles, pureFilenamesList
 
 
 if __name__ == '__main__':

@@ -1,8 +1,8 @@
 from collections import OrderedDict
 from os.path import join, basename, dirname
 
-from Stats3G import KPI, Range
-from settings import OUTPUTDIR
+from KPIs import KPI, Range
+from Settings import OUTPUTDIR
 
 
 class Parser:

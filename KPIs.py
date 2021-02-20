@@ -1,6 +1,6 @@
 from collections import OrderedDict
 import ParserException
-from settings import SEPERATOR
+from Settings import SEPERATOR
 
 
 class Range:
