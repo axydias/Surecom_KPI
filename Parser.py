@@ -1,5 +1,5 @@
 from collections import OrderedDict
-from os.path import join
+from os.path import join, basename, dirname
 
 from Stats3G import KPI, Range
 from settings import OUTPUTDIR
@@ -8,7 +8,7 @@ from settings import OUTPUTDIR
 class Parser:
     def __init__(self, filename):
         self.filename = filename
-        self.outputFile = filename.split('/')[-1][:-4] + '.csv'
+        self.outputFile = basename(filename)[:-4] + '.csv'
 
         # RSCP
         rangesRSCP = OrderedDict()
@@ -47,11 +47,12 @@ class Parser:
         print("Parsing completed")
 
     def writeOutput(self):
-        print("Writing results to '" + join(OUTPUTDIR, self.outputFile) + "'")
+        fullOutputFilename = join(dirname(__file__), join(OUTPUTDIR, self.outputFile))
+        print("Writing results to '" + fullOutputFilename + "'")
         rangesRSCP = self.rscp.printRanges()
         rangesEcNo = self.ecno.printRanges()
         rangesBand = self.band.printRanges()
-        with open(join(OUTPUTDIR, self.outputFile), 'w') as outfile:
+        with open(fullOutputFilename, 'w') as outfile:
             outfile.write("UMTS RSCP (dBm)\n")
             outfile.write(rangesRSCP)
             outfile.write("\n")
