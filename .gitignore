@@ -1,4 +1,5 @@
 .idea/
 input/
 other/
+__pycache__/
 

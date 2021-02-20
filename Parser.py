@@ -1,5 +1,6 @@
 from collections import OrderedDict
-from os.path import join, basename, dirname
+from os.path import join, basename, dirname, isdir
+from os import mkdir
 
 from KPIs import KPI, Range
 from Settings import OUTPUTDIR
@@ -10,20 +11,20 @@ class Parser:
         self.filename = filename
         self.outputFile = basename(filename)[:-4] + '.csv'
 
-        # RSCP
+        # RSCP ranges
         rangesRSCP = OrderedDict()
         rangesRSCP['<-101'] = Range(-500, -101, '<= -101')
         rangesRSCP['-94to-101'] = Range(-101, -94, '-94 to -101')
         rangesRSCP['-15to-94'] = Range(-94, -15, '-15 to -94')
         self.rscp = KPI("rscp", rangesRSCP)
 
-        # Ec/No
+        # Ec/No ranges
         rangesEcNo = OrderedDict()
         rangesEcNo['<-15'] = Range(-50, -14, '-34 to -14')
         rangesEcNo['-15to0'] = Range(-14, 0, '-14 to 0')
         self.ecno = KPI("ecno", rangesEcNo)
 
-        # UARFCN
+        # UARFCN ranges
         rangesBand = OrderedDict()
         rangesBand['umts900'] = Range(3063, 3064, 'UMTS 900')
         rangesBand['umts2100'] = Range(10712, 10738, 'UMTS 2100')
@@ -47,6 +48,11 @@ class Parser:
         print("Parsing completed")
 
     def writeOutput(self):
+        # Create output dir if not exists
+        if not isdir(join(dirname(__file__), OUTPUTDIR)):
+            mkdir(join(dirname(__file__), OUTPUTDIR))
+            print("Created directory: " + join(dirname(__file__), OUTPUTDIR))
+
         fullOutputFilename = join(dirname(__file__), join(OUTPUTDIR, self.outputFile))
         print("Writing results to '" + fullOutputFilename + "'")
         rangesRSCP = self.rscp.printRanges()

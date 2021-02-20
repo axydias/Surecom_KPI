@@ -1,6 +1,6 @@
 from collections import OrderedDict
 import ParserException
-from Settings import SEPERATOR
+from Settings import SEPARATOR
 
 
 class Range:
@@ -40,7 +40,7 @@ class KPI:
         percentages = ''
         for r in self.ranges.keys():
             myrange = self.ranges.get(r)
-            mystr = '{}{}{}{}{}\n'.format(myrange.description, SEPERATOR, myrange.count, SEPERATOR, myrange.percentage)
+            mystr = '{}{}{}{}{}\n'.format(myrange.description, SEPARATOR, myrange.count, SEPARATOR, myrange.percentage)
             percentages += mystr
 
         return percentages

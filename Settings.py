@@ -1,2 +1,2 @@
-SEPERATOR = ';'
+SEPARATOR = ';'
 OUTPUTDIR = 'output'
