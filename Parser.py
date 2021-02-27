@@ -1,15 +1,16 @@
 from collections import OrderedDict
 from os.path import join, basename, dirname, isdir
 from os import mkdir
-
+from Bands import Operators, Bands3G
 from KPIs import KPI, Range
 from Settings import OUTPUTDIR
 
 
 class Parser:
-    def __init__(self, filename):
+    def __init__(self, filename, operator_to_scan):
         self.filename = filename
         self.outputFile = basename(filename)[:-4] + '.csv'
+        self.operator_to_scan = operator_to_scan
 
         # RSCP ranges
         rangesRSCP = OrderedDict()
@@ -26,8 +27,18 @@ class Parser:
 
         # UARFCN ranges
         rangesBand = OrderedDict()
-        rangesBand['umts900'] = Range(3063, 3064, 'UMTS 900')
-        rangesBand['umts2100'] = Range(10712, 10738, 'UMTS 2100')
+        allBands = Bands3G[Operators[self.operator_to_scan]]
+        ranges_u900 = []
+        ranges_u2100 = []
+        for band in allBands:
+            if band < 8000:
+                ranges_u900.append(band)
+            else:
+                ranges_u2100.append(band)
+        ranges_u900.sort()
+        ranges_u2100.sort()
+        rangesBand['umts900'] = Range(ranges_u900[0], ranges_u900[len(ranges_u900)-1]+1, 'UMTS 900')
+        rangesBand['umts2100'] = Range(ranges_u2100[0], ranges_u2100[len(ranges_u2100)-1]+1, 'UMTS 2100')
         self.band = KPI("band", rangesBand)
 
         # Read input file
@@ -38,6 +49,8 @@ class Parser:
                     continue
                 results = getLineAttributes(line, [6, 7, 8])
                 if results is not None:
+                    if int(results[2]) not in allBands:  # ignore samples from other operators
+                        continue
                     self.rscp.addSample(results[0])
                     self.ecno.addSample(results[1])
                     self.band.addSample(results[2])
@@ -69,6 +82,9 @@ class Parser:
 
             outfile.write("UMTS Band\n")
             outfile.write(rangesBand)
+            outfile.write("\n")
+
+            outfile.write(Operators[self.operator_to_scan] + ":" + self.filename)
             outfile.write("\n")
 
 
