@@ -14,15 +14,25 @@ class Parser:
 
         # RSCP ranges
         rangesRSCP = OrderedDict()
-        rangesRSCP['<-101'] = Range(-500, -101, '<= -101')
-        rangesRSCP['-94to-101'] = Range(-101, -94, '-94 to -101')
-        rangesRSCP['-15to-94'] = Range(-94, -15, '-15 to -94')
+        rangesRSCP['<-110'] = Range(-500, -110, '<= -110')
+        rangesRSCP['-105to-110'] = Range(-110, -105, '-105 to -110')
+        rangesRSCP['-100to-105'] = Range(-105, -100, '-100 to -105')
+        rangesRSCP['-95to-100'] = Range(-100, -95, '-95 to -100')
+        rangesRSCP['-90to-95'] = Range(-95, -90, '-90 to -95')
+        rangesRSCP['-85to-90'] = Range(-90, -85, '-85 to -90')
+        rangesRSCP['-80to-85'] = Range(-85, -80, '-80 to -85')
+        rangesRSCP['-75to-80'] = Range(-80, -75, '-75 to -80')
+        rangesRSCP['-70to-75'] = Range(-75, -70, '-70 to -75')
+        rangesRSCP['-15to-70'] = Range(-70, -15, '-15 to -70')
         self.rscp = KPI("rscp", rangesRSCP)
 
         # Ec/No ranges
         rangesEcNo = OrderedDict()
-        rangesEcNo['<-15'] = Range(-50, -14, '-34 to -14')
-        rangesEcNo['-15to0'] = Range(-14, 0, '-14 to 0')
+        rangesEcNo['<-13'] = Range(-50, -13, '-34 to -13')
+        rangesEcNo['-13to-10'] = Range(-13, -10, '-13 to -10')
+        rangesEcNo['-10to-7'] = Range(-10, -7, '-10 to -7')
+        rangesEcNo['-7to-4'] = Range(-7, -4, '-7 to -4')
+        rangesEcNo['-4to0'] = Range(-4, 0, '-4 to 0')
         self.ecno = KPI("ecno", rangesEcNo)
 
         # UARFCN ranges
