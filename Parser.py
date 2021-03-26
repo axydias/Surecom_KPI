@@ -14,16 +14,15 @@ class Parser:
 
         # RSCP ranges
         rangesRSCP = OrderedDict()
-        rangesRSCP['<-110'] = Range(-500, -110, '<= -110')
-        rangesRSCP['-105to-110'] = Range(-110, -105, '-105 to -110')
-        rangesRSCP['-100to-105'] = Range(-105, -100, '-100 to -105')
-        rangesRSCP['-95to-100'] = Range(-100, -95, '-95 to -100')
-        rangesRSCP['-90to-95'] = Range(-95, -90, '-90 to -95')
+        rangesRSCP['<-90'] = Range(-500, -90, '<= -110')
         rangesRSCP['-85to-90'] = Range(-90, -85, '-85 to -90')
         rangesRSCP['-80to-85'] = Range(-85, -80, '-80 to -85')
         rangesRSCP['-75to-80'] = Range(-80, -75, '-75 to -80')
         rangesRSCP['-70to-75'] = Range(-75, -70, '-70 to -75')
-        rangesRSCP['-15to-70'] = Range(-70, -15, '-15 to -70')
+        rangesRSCP['-65to-70'] = Range(-70, -65, '-65 to -70')
+        rangesRSCP['-60to-65'] = Range(-65, -60, '-60 to -65')
+        rangesRSCP['-55to-60'] = Range(-60, -55, '-55 to -60')
+        rangesRSCP['-15to-55'] = Range(-55, -15, '-15 to -55')
         self.rscp = KPI("rscp", rangesRSCP)
 
         # Ec/No ranges
