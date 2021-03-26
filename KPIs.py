@@ -34,7 +34,10 @@ class KPI:
 
         for r in self.ranges.keys():
             myrange = self.ranges.get(r)
-            myrange.percentage = myrange.count / total
+            if total > 0:
+                myrange.percentage = myrange.count / total
+            else:
+                myrange.percentage = 0
 
     def printRanges(self):
         percentages = ''

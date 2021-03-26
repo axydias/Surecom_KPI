@@ -57,7 +57,7 @@ class Parser:
             for line in infile:
                 if 'Time' in line:
                     continue
-                results = getLineAttributes(line, [6, 7, 8])
+                results = getLineAttributes(line, [5, 6, 7])
                 if results is not None:
                     if int(results[2]) not in allBands:  # ignore samples from other operators
                         continue
