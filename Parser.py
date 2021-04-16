@@ -14,16 +14,17 @@ class Parser:
 
         # RSCP ranges
         rangesRSCP = OrderedDict()
-        rangesRSCP['<-90'] = Range(-500, -90, '<= -90')
+        rangesRSCP['<-110'] = Range(-500, -110, '<= -110')
+        rangesRSCP['-110to-105'] = Range(-110, -105, '-110 to -105')
+        rangesRSCP['-105to-100'] = Range(-105, -100, '-105 to -100')
+        rangesRSCP['-100to-95'] = Range(-100, -95, '-100 to -95')
+        rangesRSCP['-95to-90'] = Range(-95, -90, '-95 to -90')
         rangesRSCP['-90to-85'] = Range(-90, -85, '-90 to -85')
         rangesRSCP['-85to-80'] = Range(-85, -80, '-85 to -80')
         rangesRSCP['-80to-75'] = Range(-80, -75, '-80 to -75')
         rangesRSCP['-75to-70'] = Range(-75, -70, '-75 to -70')
-        rangesRSCP['-70to-65'] = Range(-70, -65, '-70 to -65')
-        rangesRSCP['-65to-60'] = Range(-65, -60, '-65 to -60')
-        rangesRSCP['-60to-55'] = Range(-60, -55, '-60 to -55')
-        rangesRSCP['-55to-15'] = Range(-55, -15, '-55 to -15')
-        self.rscp = KPI("rscp", rangesRSCP)
+        rangesRSCP['-70to-15'] = Range(-70, -15, '-70 to -15')
+        self.rscp = KPI("rsrp", rangesRSCP)
 
         # Ec/No ranges
         rangesEcNo = OrderedDict()
@@ -32,15 +33,15 @@ class Parser:
         rangesEcNo['-10to-7'] = Range(-10, -7, '-10 to -7')
         rangesEcNo['-7to-4'] = Range(-7, -4, '-7 to -4')
         rangesEcNo['-4to0'] = Range(-4, 0, '-4 to 0')
-        self.ecno = KPI("ecno", rangesEcNo)
+        self.ecno = KPI("rsrq", rangesEcNo)
 
         allBands = Bands3G[Operators[self.operator_to_scan]]
 
         # UARFCN ranges
-        self.uarfcn = KPIPercentageSamples("uarfcn", allBands)
+        self.uarfcn = KPIPercentageSamples("earfcn", allBands)
 
         # Percentage for SC
-        self.sc = KPIPercentageSamples('sc')
+        self.sc = KPIPercentageSamples('sci')
 
         # Read input file
         print ("Reading input file " + filename)
@@ -48,7 +49,7 @@ class Parser:
             for line in infile:
                 if 'Time' in line:
                     continue
-                results = getLineAttributes(line, [6, 7, 8, 9])
+                results = getLineAttributes(line, [5, 6, 7, 8])
                 if results is not None:
                     if results[2] not in allBands:  # ignore samples from other operators
                         continue
