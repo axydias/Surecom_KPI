@@ -2,7 +2,7 @@ from collections import OrderedDict
 from os.path import join, basename, dirname, isdir
 from os import mkdir
 from Bands import Operators, Bands3G
-from KPIs import KPI, Range
+from KPIs import KPI, Range, KPIPercentageSamples
 from Settings import OUTPUTDIR
 
 
@@ -14,15 +14,15 @@ class Parser:
 
         # RSCP ranges
         rangesRSCP = OrderedDict()
-        rangesRSCP['<-90'] = Range(-500, -90, '<= -110')
-        rangesRSCP['-85to-90'] = Range(-90, -85, '-85 to -90')
-        rangesRSCP['-80to-85'] = Range(-85, -80, '-80 to -85')
-        rangesRSCP['-75to-80'] = Range(-80, -75, '-75 to -80')
-        rangesRSCP['-70to-75'] = Range(-75, -70, '-70 to -75')
-        rangesRSCP['-65to-70'] = Range(-70, -65, '-65 to -70')
-        rangesRSCP['-60to-65'] = Range(-65, -60, '-60 to -65')
-        rangesRSCP['-55to-60'] = Range(-60, -55, '-55 to -60')
-        rangesRSCP['-15to-55'] = Range(-55, -15, '-15 to -55')
+        rangesRSCP['<-90'] = Range(-500, -90, '<= -90')
+        rangesRSCP['-90to-85'] = Range(-90, -85, '-90 to -85')
+        rangesRSCP['-85to-80'] = Range(-85, -80, '-85 to -80')
+        rangesRSCP['-80to-75'] = Range(-80, -75, '-80 to -75')
+        rangesRSCP['-75to-70'] = Range(-75, -70, '-75 to -70')
+        rangesRSCP['-70to-65'] = Range(-70, -65, '-70 to -65')
+        rangesRSCP['-65to-60'] = Range(-65, -60, '-65 to -60')
+        rangesRSCP['-60to-55'] = Range(-60, -55, '-60 to -55')
+        rangesRSCP['-55to-15'] = Range(-55, -15, '-55 to -15')
         self.rscp = KPI("rscp", rangesRSCP)
 
         # Ec/No ranges
@@ -34,21 +34,13 @@ class Parser:
         rangesEcNo['-4to0'] = Range(-4, 0, '-4 to 0')
         self.ecno = KPI("ecno", rangesEcNo)
 
-        # UARFCN ranges
-        rangesBand = OrderedDict()
         allBands = Bands3G[Operators[self.operator_to_scan]]
-        ranges_u900 = []
-        ranges_u2100 = []
-        for band in allBands:
-            if band < 8000:
-                ranges_u900.append(band)
-            else:
-                ranges_u2100.append(band)
-        ranges_u900.sort()
-        ranges_u2100.sort()
-        rangesBand['umts900'] = Range(ranges_u900[0], ranges_u900[len(ranges_u900)-1]+1, 'UMTS 900')
-        rangesBand['umts2100'] = Range(ranges_u2100[0], ranges_u2100[len(ranges_u2100)-1]+1, 'UMTS 2100')
-        self.band = KPI("band", rangesBand)
+
+        # UARFCN ranges
+        self.uarfcn = KPIPercentageSamples("uarfcn", allBands)
+
+        # Percentage for SC
+        self.sc = KPIPercentageSamples('sc')
 
         # Read input file
         print ("Reading input file " + filename)
@@ -56,17 +48,17 @@ class Parser:
             for line in infile:
                 if 'Time' in line:
                     continue
-                results = getLineAttributes(line, [5, 6, 7])
+                results = getLineAttributes(line, [6, 7, 8, 9])
                 if results is not None:
-                    if int(results[2]) not in allBands:  # ignore samples from other operators
+                    if results[2] not in allBands:  # ignore samples from other operators
                         continue
                     self.rscp.addSample(results[0])
                     self.ecno.addSample(results[1])
-                    self.band.addSample(results[2])
+                    self.uarfcn.addSample(results[2])
+                    self.sc.addSample(results[3])
 
         self.rscp.calculatePercentages()
         self.ecno.calculatePercentages()
-        self.band.calculatePercentages()
         print("Parsing completed")
 
     def writeOutput(self):
@@ -79,8 +71,12 @@ class Parser:
         print("Writing results to '" + fullOutputFilename + "'")
         rangesRSCP = self.rscp.printRanges()
         rangesEcNo = self.ecno.printRanges()
-        rangesBand = self.band.printRanges()
+        rangesBand = self.uarfcn.printRanges()
+        rangesSC = self.sc.printRanges()
         with open(fullOutputFilename, 'w') as outfile:
+            outfile.write(Operators[self.operator_to_scan] + ":" + self.filename)
+            outfile.write("\n")
+
             outfile.write("UMTS RSCP (dBm)\n")
             outfile.write(rangesRSCP)
             outfile.write("\n")
@@ -89,20 +85,21 @@ class Parser:
             outfile.write(rangesEcNo)
             outfile.write("\n")
 
-            outfile.write("UMTS Band\n")
+            outfile.write("UMTS UARFCN\n")
             outfile.write(rangesBand)
             outfile.write("\n")
 
-            outfile.write(Operators[self.operator_to_scan] + ":" + self.filename)
+            outfile.write("UMTS SC\n")
+            outfile.write(rangesSC)
             outfile.write("\n")
 
 
-def getLineAttributes(line, attributeList):
+def getLineAttributes(line, attributeList, acceptEmpty=False):
     line = line.split("\t")
     result = []
     for attr in attributeList:
         if attr-1 < len(line):
-            if line[attr-1] == '':
+            if line[attr-1] == '' and acceptEmpty is False:
                 return None
             result.append(line[attr-1])
     return result
