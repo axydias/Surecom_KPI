@@ -49,14 +49,14 @@ class Parser:
             for line in infile:
                 if 'Time' in line:
                     continue
-                results = getLineAttributes(line, [5, 6, 7, 8])
+                results = getLineAttributes(line, [5, 6, 7, 8], acceptEmpty=True)
                 if results is not None:
                     if results[2] not in allBands:  # ignore samples from other operators
                         continue
-                    self.rsrp.addSample(results[0])
-                    self.rsrq.addSample(results[1])
-                    self.earfcn.addSample(results[2])
-                    self.sci.addSample(results[3])
+                    self.rsrp.addSample(results[0], False)
+                    self.rsrq.addSample(results[1], False)
+                    self.earfcn.addSample(results[2], False)
+                    self.sci.addSample(results[3], False)
 
         self.rsrp.calculatePercentages()
         self.rsrq.calculatePercentages()
