@@ -20,7 +20,9 @@ class KPI:
             raise ParserException("Wrong ranges type, expected OrderedDict")
         self.ranges = ranges
 
-    def addSample(self, value):
+    def addSample(self, value, acceptEmpty):
+        if acceptEmpty is False and value == '':
+            return
         for r in self.ranges.keys():
             myrange = self.ranges.get(r)
             if myrange.maximum > float(value) >= myrange.minimum:
@@ -110,7 +112,9 @@ class KPIPercentageSamples:
             for key in initValues:
                 self.samples[key] = 0
 
-    def addSample(self, key, acceptedValues=None):
+    def addSample(self, key, acceptEmpty, acceptedValues=None):
+        if acceptEmpty is False and key == '':
+            return
         if acceptedValues is None or (acceptedValues is not None and key in acceptedValues):
             if key in self.samples.keys():
                 self.samples[key] += 1
