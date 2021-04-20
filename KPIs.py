@@ -61,7 +61,9 @@ class KPIPercentage:
         self.activeStartTime = None
         self.lastTimestamp = None
 
-    def addSample(self, key, value):
+    def addSample(self, key, value, acceptEmpty):
+        if acceptEmpty is False and value == '':
+            return
         if key in self.samples.keys():
             self.samples[key] += value
         else:
