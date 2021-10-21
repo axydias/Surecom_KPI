@@ -21,8 +21,8 @@ class Parser:
 
         # Ec/No ranges
         rangesEcNo = OrderedDict()
-        rangesEcNo['<-15'] = Range(-50, -15, '-34 to -15')
-        rangesEcNo['-15to0'] = Range(-15, 0, '-15 to 0')
+        rangesEcNo['<-14'] = Range(-50, -14, '-34 to -14')
+        rangesEcNo['-14to0'] = Range(-14, 0, '-14 to 0')
         self.ecno = KPI("ecno", rangesEcNo)
 
         allBands = Bands3G[Operators[self.operator_to_scan]]
