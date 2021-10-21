@@ -14,24 +14,15 @@ class Parser:
 
         # RSCP ranges
         rangesRSCP = OrderedDict()
-        rangesRSCP['<-90'] = Range(-500, -90, '<= -90')
-        rangesRSCP['-90to-85'] = Range(-90, -85, '-90 to -85')
-        rangesRSCP['-85to-80'] = Range(-85, -80, '-85 to -80')
-        rangesRSCP['-80to-75'] = Range(-80, -75, '-80 to -75')
-        rangesRSCP['-75to-70'] = Range(-75, -70, '-75 to -70')
-        rangesRSCP['-70to-65'] = Range(-70, -65, '-70 to -65')
-        rangesRSCP['-65to-60'] = Range(-65, -60, '-65 to -60')
-        rangesRSCP['-60to-55'] = Range(-60, -55, '-60 to -55')
-        rangesRSCP['-55to-15'] = Range(-55, -15, '-55 to -15')
+        rangesRSCP['<-101'] = Range(-500, -101, '<= -101')
+        rangesRSCP['-101to-94'] = Range(-101, -94, '-101 to -94')
+        rangesRSCP['-94to-15'] = Range(-94, -15, '-94 to -15')
         self.rscp = KPI("rscp", rangesRSCP)
 
         # Ec/No ranges
         rangesEcNo = OrderedDict()
-        rangesEcNo['<-13'] = Range(-50, -13, '-34 to -13')
-        rangesEcNo['-13to-10'] = Range(-13, -10, '-13 to -10')
-        rangesEcNo['-10to-7'] = Range(-10, -7, '-10 to -7')
-        rangesEcNo['-7to-4'] = Range(-7, -4, '-7 to -4')
-        rangesEcNo['-4to0'] = Range(-4, 0, '-4 to 0')
+        rangesEcNo['<-15'] = Range(-50, -15, '-34 to -15')
+        rangesEcNo['-15to0'] = Range(-15, 0, '-15 to 0')
         self.ecno = KPI("ecno", rangesEcNo)
 
         allBands = Bands3G[Operators[self.operator_to_scan]]
