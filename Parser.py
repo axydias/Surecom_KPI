@@ -14,25 +14,15 @@ class Parser:
 
         # RSRP ranges
         rangesRSRP = OrderedDict()
-        rangesRSRP['<-110'] = Range(-500, -110, '<= -110')
-        rangesRSRP['-110to-105'] = Range(-110, -105, '-110 to -105')
-        rangesRSRP['-105to-100'] = Range(-105, -100, '-105 to -100')
-        rangesRSRP['-100to-95'] = Range(-100, -95, '-100 to -95')
-        rangesRSRP['-95to-90'] = Range(-95, -90, '-95 to -90')
-        rangesRSRP['-90to-85'] = Range(-90, -85, '-90 to -85')
-        rangesRSRP['-85to-80'] = Range(-85, -80, '-85 to -80')
-        rangesRSRP['-80to-75'] = Range(-80, -75, '-80 to -75')
-        rangesRSRP['-75to-70'] = Range(-75, -70, '-75 to -70')
-        rangesRSRP['-70to-15'] = Range(-70, -15, '-70 to -15')
+        rangesRSRP['<-101'] = Range(-500, -101, '<= -101')
+        rangesRSRP['-101to-94'] = Range(-101, -94, '-101 to -94')
+        rangesRSRP['-94to-15'] = Range(-94, -15, '-94 to -15')
         self.rsrp = KPI("rsrp", rangesRSRP)
 
         # RSRQ ranges
         rangesRSRQ = OrderedDict()
-        rangesRSRQ['<-13'] = Range(-50, -13, '-34 to -13')
-        rangesRSRQ['-13to-10'] = Range(-13, -10, '-13 to -10')
-        rangesRSRQ['-10to-7'] = Range(-10, -7, '-10 to -7')
-        rangesRSRQ['-7to-4'] = Range(-7, -4, '-7 to -4')
-        rangesRSRQ['-4to0'] = Range(-4, 0, '-4 to 0')
+        rangesRSRQ['<-14'] = Range(-50, -14, '-34 to -14')
+        rangesRSRQ['-14to0'] = Range(-14, 0, '-14 to 0')
         self.rsrq = KPI("rsrq", rangesRSRQ)
 
         allBands = Bands4G[Operators[self.operator_to_scan]]
