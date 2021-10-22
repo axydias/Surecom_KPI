@@ -3,6 +3,6 @@ from collections import OrderedDict
 Operators = ['Three', 'Eir', 'Vodafone']
 
 Bands4G = OrderedDict()
-Bands4G['Three'] = ['2988', '3010', '3088', '10564', '10589', '10613', '10787', '10812', '10837']
-Bands4G['Eir'] = ['225', '1875', '6200']
-Bands4G['Vodafone'] = ['3063', '10712', '10737', '10762']
+Bands4G['Three'] = ['9360', '6300', '1275', '1700', '525', '550']
+Bands4G['Eir'] = ['225', '1875', '6200', '9260']
+Bands4G['Vodafone'] = ['6400', '1450', '399']
