@@ -14,9 +14,9 @@ class Parser:
 
         # RSRP ranges
         rangesRSRP = OrderedDict()
-        rangesRSRP['<-101'] = Range(-500, -101, '<= -101')
-        rangesRSRP['-101to-94'] = Range(-101, -94, '-101 to -94')
-        rangesRSRP['-94to-15'] = Range(-94, -15, '-94 to -15')
+        rangesRSRP['<-110'] = Range(-500, -110, '<= -110')
+        rangesRSRP['-110to-100'] = Range(-110, -100, '-110 to -100')
+        rangesRSRP['-100to-15'] = Range(-100, -15, '-100 to -15')
         self.rsrp = KPI("rsrp", rangesRSRP)
 
         # RSRQ ranges
